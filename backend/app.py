@@ -11,7 +11,7 @@ load_dotenv()
 app = Flask(
     __name__,
     template_folder="../frontend/templates",  # <-- updated path
-    static_folder="static"                   # where CSS/JS go (unchanged)
+    static_folder="../frontend/static"                   # where CSS/JS go (unchanged)
 )
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-key")
 app.config["UPLOAD_FOLDER"] = "uploads"
