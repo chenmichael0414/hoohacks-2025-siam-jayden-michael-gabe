@@ -1,10 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for
 from dotenv import load_dotenv
+from routes.upload import upload_bp
+from routes.notes import notes_bp
+from routes.api import api_bp
 import os
 
+# Load .env vars
 load_dotenv()
 
-app = Flask(__name__)
+# Set up Flask and manually define template + static folders
+app = Flask(
+    __name__,
+    template_folder="../frontend/templates",  # <-- updated path
+    static_folder="../frontend/static"                   # where CSS/JS go (unchanged)
+)
+app.config["UPLOAD_FOLDER"] = "uploads"
+app.register_blueprint(upload_bp)
+app.register_blueprint(notes_bp)
+app.register_blueprint(api_bp)
 
 @app.route("/")
 def index():
@@ -12,7 +25,7 @@ def index():
 
 @app.route("/upload", methods=["POST"])
 def upload():
-    # You’ll replace this with upload logic later
+    # You’ll handle file saving and processing later
     return redirect(url_for("processing"))
 
 @app.route("/processing")
