@@ -1,0 +1,88 @@
+/* General Body and Centering */
+.homepage_body {
+  background-color: #f5f5f5;
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Square Container */
+.container {
+  width: 100%;
+  max-width: 500px;
+  height: 500px; /* Make the container square */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Form Box Styling */
+.box {
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content:space-evenly;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  opacity: 0; /* Initial state for fade-in */
+  animation: fadeInUp 1.5s forwards; /* Apply fade-in animation */
+}
+
+/* Loading Animation */
+.loading-icon {
+  font-size: 3rem;
+  animation: rotate 1.5s linear infinite;
+}
+
+/* Fade-In Animation */
+/* Fade-In and Upward Movement Animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0; /* Starting with the box fully transparent */
+    transform: translateY(100px); /* Starting below the page */
+  }
+  100% {
+    opacity: 1; /* Ending with the box fully visible */
+    transform: translateY(0); /* Ending at its normal position */
+  }
+}
+
+
+
+/* Rotate animation for the loading icon */
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* Typography */
+h1 {
+  margin-bottom: 20px;
+}
+.title {
+  font-size: 3rem;
+}
+.subtitle {
+  font-size: 1.2rem;
+}
+
+/* Hover Effect on Buttons: Move Up and Darken */
+.button.is-primary {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.button.is-primary:hover {
+  transform: translateY(-5px); /* Moves the button up slightly */
+  background-color: #0066cc; /* Darken the button color */
+}
