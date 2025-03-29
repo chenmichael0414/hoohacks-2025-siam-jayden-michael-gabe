@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for
 from dotenv import load_dotenv
 from routes.upload import upload_bp
 from routes.notes import notes_bp
-from backend.services.sis_api import api_bp
 import os
 
 # Load .env vars
@@ -17,7 +16,6 @@ app = Flask(
 app.config["UPLOAD_FOLDER"] = "uploads"
 app.register_blueprint(upload_bp)
 app.register_blueprint(notes_bp)
-app.register_blueprint(api_bp)
 
 @app.route("/")
 def index():
