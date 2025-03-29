@@ -13,9 +13,11 @@ app = Flask(
     template_folder="../frontend/templates",  # <-- updated path
     static_folder="static"                   # where CSS/JS go (unchanged)
 )
+app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-key")
 app.config["UPLOAD_FOLDER"] = "uploads"
 app.register_blueprint(upload_bp)
 app.register_blueprint(notes_bp)
+
 
 @app.route("/")
 def index():
