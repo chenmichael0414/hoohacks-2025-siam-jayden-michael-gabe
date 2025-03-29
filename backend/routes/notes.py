@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 
 notes_bp = Blueprint("notes", __name__)
 
+
 @notes_bp.route("/notes", methods=["POST"])
 def save_notes():
     data = request.get_json()
