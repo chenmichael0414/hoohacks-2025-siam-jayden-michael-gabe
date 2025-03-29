@@ -10,7 +10,7 @@ load_dotenv()
 app = Flask(
     __name__,
     template_folder="../frontend/templates",  # <-- updated path
-    static_folder="static"                   # where CSS/JS go (unchanged)
+    static_folder="../frontend/static"                   # where CSS/JS go (unchanged)
 )
 app.config["UPLOAD_FOLDER"] = "uploads"
 app.register_blueprint(upload_bp)
