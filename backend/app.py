@@ -2,9 +2,15 @@ from flask import Flask, render_template, request, redirect, url_for
 from dotenv import load_dotenv
 import os
 
+# Load .env vars
 load_dotenv()
 
-app = Flask(__name__)
+# Set up Flask and manually define template + static folders
+app = Flask(
+    __name__,
+    template_folder="../frontend/templates",  # <-- updated path
+    static_folder="static"                   # where CSS/JS go (unchanged)
+)
 
 @app.route("/")
 def index():
@@ -12,7 +18,7 @@ def index():
 
 @app.route("/upload", methods=["POST"])
 def upload():
-    # You’ll replace this with upload logic later
+    # You’ll handle file saving and processing later
     return redirect(url_for("processing"))
 
 @app.route("/processing")
