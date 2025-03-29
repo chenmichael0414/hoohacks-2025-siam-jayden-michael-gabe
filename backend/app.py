@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from dotenv import load_dotenv
+from routes.upload import upload_bp
 import os
 
 # Load .env vars
@@ -11,6 +12,8 @@ app = Flask(
     template_folder="../frontend/templates",  # <-- updated path
     static_folder="static"                   # where CSS/JS go (unchanged)
 )
+app.config["UPLOAD_FOLDER"] = "uploads"
+app.register_blueprint(upload_bp)
 
 @app.route("/")
 def index():
