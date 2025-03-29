@@ -1,18 +1,31 @@
-<!-- frontend/templates/index.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Lecture Notes Generator</title>
-</head>
-<body>
-  <h1>📚 Lecture Notes AI</h1>
-  <p>Upload a lecture video and we'll generate slide-aware notes for you!</p>
+{% extends "base.html" %}
 
-  <form action="/upload" method="POST" enctype="multipart/form-data">
-    <input type="file" name="video" accept=".mp4,.mov" required>
-    <br><br>
-    <button type="submit">Start Processing</button>
-  </form>
+
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<body class = "centered_body">
+  <div class="container">
+    <!-- Header and Form Section -->
+    <div class="box">
+      <h1 class="title has-text-centered typewriter"> Lecture Notes AI</h1>
+      <p class="subtitle has-text-centered">Upload a lecture video and we'll generate slide-aware notes for you!</p>
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+        <div class="field">
+          <label class="label">Choose a Video</label>
+          <div class="control">
+            <input type="file" name="video" accept=".mp4,.mov" class="input" required>
+          </div>
+        </div>
+        <div class="field">
+          <button type="submit" class="button is-primary is-fullwidth">Start Processing</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bulma JS (for any interactive features) -->
+  <script src="https://cdn.jsdelivr.net/npm/bulma@0.9.3/js/bulma.min.js"></script>
 </body>
-</html>
+{% endblock %}
