@@ -11,6 +11,9 @@
     <option name="namespacePackageFolders">
       <list>
         <option value="$MODULE_DIR$/backend" />
+        <option value="$MODULE_DIR$/backend/services" />
+        <option value="$MODULE_DIR$/backend/routes" />
+        <option value="$MODULE_DIR$/backend/db" />
       </list>
     </option>
   </component>
