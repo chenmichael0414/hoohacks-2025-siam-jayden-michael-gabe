@@ -14,6 +14,7 @@ prompt = ("Generate well-formatted and clean notes with titles and headers from 
 
 
 def parse_generate_pdf(pdf_path):
+    my_file = client.files.upload(file=pdf_path)
     images = convert_from_path(pdf_path)
     text = ""
     for image in images:
