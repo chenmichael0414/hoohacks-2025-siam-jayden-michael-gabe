@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
+
+
+<<<<<<< HEAD
 {% block title %}About{% endblock %}
 
 {% block content %}
@@ -19,9 +22,9 @@
         <div class = "cardBox">
             <h1 id = "person" class="title has-text-centered">Michael</h1>
             <ul class = "ul">
-                <li id = "list1">He is a 2nd year computer science student at UVA</li>
+                <li id = "list1">Michael is a 2nd year computer science student at UVA</li>
                 <li id = "list2">He is passionate about AI and Machine Learning</li>
-                <li id = "list3">He is a huge fan of Super Smash Brothers Ultimate</li>
+                <li id = "list3">He is a huge fan of the Toronto Raptors</li>
                 </ul>
                 <div class="field">
           <button onclick=swapPerson() class="button is-primary is-fullwidth">Swap</button>
@@ -40,7 +43,7 @@
                                 person.innerHTML = "Jayden";
                                 list1.innerHTML = "He is a 2nd year computer science student at UVA";
                                 list2.innerHTML = "He is passionate about UX and Web Development";
-                                list3.innerHTML = "He is a huge fan of Frank Ocean";
+                                list3.innerHTML = "He is a huge fan of Nikola Jokic";
                             } else if (person.innerHTML === "Jayden") {
                                 person.innerHTML = "Gabe";
                                 list1.innerHTML = "He is a 2nd year computer science student at UVA";
@@ -51,7 +54,7 @@
                                 person.innerHTML = "Michael";
                                 list1.innerHTML = "He is a 2nd year computer science student at UVA";
                                 list2.innerHTML = "He is passionate about AI and Machine Learning";
-                                list3.innerHTML = "He is a huge fan of Super Smash Brothers Ultimate";
+                                list3.innerHTML = "He is a huge fan of the Toronto Raptors";
                             }
                         }
                     </script>
@@ -61,3 +64,4 @@
 
   <!-- Bulma JS (for any interactive features) -->
   <script src="https://cdn.jsdelivr.net/npm/bulma@0.9.3/js/bulma.min.js"></script>
+  {% endblock %}
