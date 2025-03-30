@@ -5,12 +5,81 @@ from pydub import AudioSegment
 from google import genai
 from dotenv import load_dotenv
 import tempfile
+import os
+import unicodedata
+from fpdf import FPDF, HTMLMixin
+from markdown2 import markdown
+from pydub import AudioSegment
+from dotenv import load_dotenv
+from google import genai
+import tempfile
 
 load_dotenv()
 api_key = os.getenv('google_API_key')
 client = genai.Client(api_key=api_key)
 
 CHUNK_DURATION_MS = 25 * 60 * 1000  # 25 minutes in milliseconds
+
+import os
+
+def build_notes_prompt(transcript, slides_info):
+    slide_block = "\n".join(f"[{time}] OCR: {ocr}" for time, ocr in slides_info)
+    prompt = (
+        "Using the transcript and visual slide content, generate clean, well-structured MARKDOWN notes. "
+        "These notes will be converted into a PDF, so use formatting that looks great when printed.\n\n"
+        "Use Markdown:\n"
+        "- `#`, `##`, `###` for headers\n"
+        "- `**bold**` and `*italics*` for emphasis\n"
+        "- Lists with `-` or `1.`\n"
+        "- Use code blocks where appropriate (` ```c `)\n"
+        "Try to use color-friendly formatting for printed output if possible.\n\n"
+        f"Transcript:\n{transcript}\n\nSlides:\n{slide_block}"
+    )
+    return prompt
+
+
+def generate_notes_from_prompt(prompt):
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=[prompt]
+    )
+    return response.text
+
+
+def clean_text(text):
+    return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
+
+
+class MarkdownPDF(FPDF, HTMLMixin):
+    pass
+
+
+def save_notes_as_pdf(notes_markdown, filename="lecture_notes.pdf"):
+    html = markdown(notes_markdown)
+    html = clean_text(html)
+
+    pdf = MarkdownPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+    pdf.write_html(html)
+    pdf.output(filename)
+
+def generate_notes(audio_path):
+    base_name = os.path.splitext(os.path.basename(audio_path))[0]
+    notes_pdf = f"{base_name}_notes.pdf"
+    associated_video = f"{base_name}.mp4"
+
+    print("🧠 Transcribing audio...")
+    transcript = transcribe_audio(audio_path)
+
+    print("✍️ Building prompt and generating markdown notes...")
+    prompt = build_notes_prompt(transcript, [])
+    markdown_notes = generate_notes_from_prompt(prompt)
+
+    print("📄 Saving notes as PDF...")
+    save_notes_as_pdf(markdown_notes, filename=notes_pdf)
+
+    return notes_pdf
 
 
 def split_audio(file_path):
@@ -50,65 +119,11 @@ def transcribe_audio(file_path):
     for i, chunk in enumerate(chunks):
         print(f"🧠 Transcribing chunk {i + 1}/{len(chunks)}...")
         full_transcript += transcribe_chunk(chunk, i)
+    prompt = build_notes_prompt(full_transcript, [])
+    markdown_notes = generate_notes_from_prompt(prompt)
+
+    print("📄 Saving notes as PDF...")
+    save_notes_as_pdf(markdown_notes)
+
 
     return full_transcript
-
-
-def transcript_as_pdf(notes_text, filename="lecture_notes.pdf"):
-    class NotesPDF(FPDF):
-        def header(self):
-            self.set_font("Arial", 'B', 16)
-            self.cell(0, 10, "Lecture Notes", ln=True, align="C")
-            self.ln(5)
-
-        def chapter_title(self, title):
-            self.set_font("Arial", 'B', 14)
-            self.set_text_color(33, 37, 41)
-            self.cell(0, 10, title, ln=True)
-            self.ln(2)
-
-        def bullet_point(self, text):
-            self.set_font("Arial", '', 12)
-            self.set_text_color(50, 50, 50)
-            self.cell(5)  # indent
-            self.multi_cell(0, 8, u"\u2022 " + text)
-            self.ln(1)
-
-        def paragraph(self, text):
-            self.set_font("Arial", '', 12)
-            self.set_text_color(0)
-            self.multi_cell(0, 8, text)
-            self.ln(3)
-
-    def clean_text(text):
-        import re
-        return re.sub(r'[^\x00-\x7F]+', '', text)  # remove non-ASCII for FPDF compatibility
-
-    pdf = NotesPDF()
-    pdf.add_page()
-
-    # Clean up problematic characters
-    notes_text = clean_text(notes_text)
-
-    # Split into sections (using double newlines as block breaks)
-    blocks = notes_text.strip().split("\n\n")
-    for block in blocks:
-        if block.startswith("### "):  # custom header notation if used
-            title = block.replace("### ", "").strip()
-            pdf.chapter_title(title)
-        elif block.startswith("- "):
-            for line in block.split("\n"):
-                if line.startswith("- "):
-                    pdf.bullet_point(line[2:].strip())
-        else:
-            pdf.paragraph(block)
-
-    pdf.output(filename)
-
-
-def transcribe(file_path):
-    base_name = os.path.splitext(os.path.basename(file_path))[0]
-    transcript_pdf = f"{base_name}_transcript.pdf"
-    full_transcript = transcribe_audio(file_path)
-    transcript_as_pdf(full_transcript, transcript_pdf)
-
