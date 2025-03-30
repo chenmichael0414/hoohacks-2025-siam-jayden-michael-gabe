@@ -5,28 +5,19 @@
       <sourceFolder url="file://$MODULE_DIR$/backend" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/frontend" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv1" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.10 (hoohacks-2025-siam-jayden-michael-gabe)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (HooHacks2025)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyNamespacePackagesService">
     <option name="namespacePackageFolders">
       <list>
-        <option value="$MODULE_DIR$/backend" />
-        <option value="$MODULE_DIR$/backend/services" />
-        <option value="$MODULE_DIR$/backend/routes" />
         <option value="$MODULE_DIR$/backend/db" />
-        <option value="$MODULE_DIR$/frontend" />
+        <option value="$MODULE_DIR$/backend/routes" />
+        <option value="$MODULE_DIR$/backend/services" />
         <option value="$MODULE_DIR$/frontend/static" />
-        <option value="$MODULE_DIR$/frontend/templates" />
-      </list>
-    </option>
-  </component>
-  <component name="TemplatesService">
-    <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
-    <option name="TEMPLATE_FOLDERS">
-      <list>
-        <option value="$MODULE_DIR$/frontend/templates" />
+        <option value="$MODULE_DIR$/frontend/static/css" />
       </list>
     </option>
   </component>
