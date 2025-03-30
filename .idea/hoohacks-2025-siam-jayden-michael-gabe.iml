@@ -16,6 +16,9 @@
         <option value="$MODULE_DIR$/backend/services" />
         <option value="$MODULE_DIR$/backend/routes" />
         <option value="$MODULE_DIR$/backend/db" />
+        <option value="$MODULE_DIR$/frontend" />
+        <option value="$MODULE_DIR$/frontend/static" />
+        <option value="$MODULE_DIR$/frontend/templates" />
       </list>
     </option>
   </component>
