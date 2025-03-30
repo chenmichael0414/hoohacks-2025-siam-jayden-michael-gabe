@@ -9,8 +9,7 @@ api_key = os.getenv('google_API_key')
 client = genai.Client(api_key=api_key)
 
 prompt = ("Generate well-formatted and clean notes with titles and headers from the text that you are supplied with."
-          "There may be mistakes in formatting and spelling as of right. Please correct them, if necessary."
-          "Please make it in XML format.")
+          "There may be mistakes in formatting and spelling as of right. Please correct them, if necessary.")
 
 
 def parse_generate_pdf(pdf_path):
@@ -21,9 +20,6 @@ def parse_generate_pdf(pdf_path):
     generated_notes = client.models.generate_content(
         model='gemini-2.0-flash',
         contents=[prompt, text],
-        config={
-            'response_mime_type': 'application/xml',
-        }
     )
     return generated_notes
 # make sure this returns formatted text, be it JSON or other format NOT a string,
