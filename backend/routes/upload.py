@@ -28,7 +28,9 @@ def upload():
     upload_folder = current_app.config["UPLOAD_FOLDER"]
     os.makedirs(upload_folder, exist_ok=True)
     save_path = os.path.join(upload_folder, filename)
+    print(session.get("filename"))
     file.save(save_path)
+    print(session.get("filename"))
 
     # Optional: store file type or extension if you want to branch processing logic later
     return redirect(url_for("processing"))
