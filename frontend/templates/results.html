@@ -1,27 +1,33 @@
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Notes</title>
-  <!-- Bulma CSS CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-  <!-- Link to external CSS file for additional styles -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body class = "centered_body">
-  <div class="container">
-    <div class="box ">
-      <h2 class="title is-4 has-text-centered">✅ Your notes are ready!</h2>
-      <p class="subtitle has-text-centered"><strong>Coming soon:</strong> Slide-by-slide notes will appear here.</p>
-      <div class="field has-text-centered">
-        <a href="/download" class="button is-primary is-large">
-          Download Notes (.docx)
-        </a>
-      </div>
+{% block title %}Results{% endblock %}
+
+{% block content %}
+{% extends "base.html" %}
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+<body class="results-body">
+  <div class="results-container">
+    
+    <!-- Left Section: Title, Subtitle, Download Button -->
+    <div class="left-panel">
+      <h1 class="title">Processing Complete</h1>
+      <p class="subtitle">View your notes here →</p>
+      
+      <!-- Download Button -->
+      <a href="/download" class="button is-primary is-rounded">Download Notes</a>
     </div>
-  </div>
-</body>
-</html>
 
+    <!-- Right Section: Scrollable iFrame for Notes -->
+    <div class="right-panel">
+      <iframe src="{{ url_for('static', filename='path_to_your_rtf_file.rtf') }}" class="notes-viewer"></iframe>
+    </div>
+
+  </div>
+  
+  <!-- Bulma JS (for any interactive features) -->
+  <script src="https://cdn.jsdelivr.net/npm/bulma@0.9.3/js/bulma.min.js"></script>
+</body>
+{% endblock %
