@@ -5,6 +5,7 @@ from services import transcription, slides
 
 process_bp = Blueprint("process", __name__)
 
+
 def get_audio_duration(path):
     try:
         probe = ffmpeg.probe(path)
@@ -23,6 +24,7 @@ def processing_page():
     file_type = session.get("file_type")
     input_file_path = session.get("file_path")
     output_file_path = os.path.join(current_app.config["UPLOAD_FOLDER"], "lecture_to_audio.mp3")
+    output_video_path = os.path.join(current_app.config["UPLOAD_FOLDER"], "lecture_video.mp4")
 
     print("📼 Original file:", input_file_path)
     print("📼 Original duration:", get_audio_duration(input_file_path))
@@ -37,6 +39,10 @@ def processing_page():
             )
         elif file_type == "mp3":
             os.replace(input_file_path, output_file_path)
+        elif file_type == "pdf":
+            print("📄 Converting PDF to text using OCR...")
+            notes = slides.parse_generate_pdf(input_file_path)
+            print("📝 Notes:\n", notes)
         else:
             return "Unsupported file type", 400
 
