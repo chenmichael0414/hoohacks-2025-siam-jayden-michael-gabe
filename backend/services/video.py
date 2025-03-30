@@ -39,7 +39,7 @@ def extract_frames(video_path, every_n_seconds=15, output_folder="frames"):
         count += 1
     return frame_data
 
-# 🔍 Perform OCR and image captioning on frame
+# 🔍 Perform OCR on frame
 def analyze_frame(img_path):
     ocr_text = pytesseract.image_to_string(img_path)
     return ocr_text.strip()
@@ -79,7 +79,7 @@ def generate_notes_from_prompt(prompt):
     )
     return response.text
 
-# 🧼 Optional: Clean problematic unicode characters
+# 🧼 Clean problematic unicode characters
 def clean_text(text):
     return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
 
