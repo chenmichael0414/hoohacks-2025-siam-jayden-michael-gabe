@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<body class = "aboutBody">
+  <div class="aboutContainer">
+    <!-- Header and Form Section -->
+    <div class="aboutBox">
+      <h1 class="title has-text-centered about">About</h1>
+            <ul class = "ul">
+                <li>An AI Learning tool</li>
+                <li>Takes in audio and video to automatically generate notes for you!</li>
+                <li>Powered by Google Gemini and Auth0</li>
+        </ul>
+    </div>
+  </div>
+    <div class = "cardContainer">
+        <div class = "cardBox">
+            <h1 id = "person" class="title has-text-centered">Michael</h1>
+            <ul class = "ul">
+                <li id = "list1">Michael is a 2nd year computer science student at UVA</li>
+                <li id = "list2">He is passionate about AI and Machine Learning</li>
+                <li id = "list3">He is a huge fan of the Toronto Raptors</li>
+                </ul>
+                <div class="field">
+          <button onclick=swapPerson() class="button is-primary is-fullwidth">Swap</button>
+                    <script>
+                        function swapPerson() {
+                            let person = document.getElementById("person");
+                            let list1 = document.getElementById("list1");
+                            let list2 = document.getElementById("list2");
+                            let list3 = document.getElementById("list3");
+                            if (person.innerHTML === "Michael") {
+                                person.innerHTML = "Siam";
+                                list1.innerHTML = "He is a 2nd year computer science student at UVA";
+                                list2.innerHTML = "He is passionate about AI and Machine Learning";
+                                list3.innerHTML = "He is a huge fan of the Toronto Raptors";
+                            } else if (person.innerHTML === "Siam") {
+                                person.innerHTML = "Jayden";
+                                list1.innerHTML = "He is a 2nd year computer science student at UVA";
+                                list2.innerHTML = "He is passionate about AI and Machine Learning";
+                                list3.innerHTML = "He is a huge fan of the Toronto Raptors";
+                            } else if (person.innerHTML === "Jayden") {
+                                person.innerHTML = "Gabe";
+                                list1.innerHTML = "He is a 2nd year computer science student at UVA";
+                                list2.innerHTML = "He is passionate about Cyber Security and AI";
+                                list3.innerHTML = "He enjoys climbing and getting Jayden to climb as well >:)";
+                            }
+                            else {
+                                person.innerHTML = "Michael";
+                                list1.innerHTML = "He is a 2nd year computer science student at UVA";
+                                list2.innerHTML = "He is passionate about AI and Machine Learning";
+                                list3.innerHTML = "He is a huge fan of the Toronto Raptors";
+                            }
+                        }
+                    </script>
+        </div>
+        </div>
+    </div>
+
+  <!-- Bulma JS (for any interactive features) -->
+  <script src="https://cdn.jsdelivr.net/npm/bulma@0.9.3/js/bulma.min.js"></script>
+{% endblock %}

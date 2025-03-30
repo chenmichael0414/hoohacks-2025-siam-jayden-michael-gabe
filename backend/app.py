@@ -35,6 +35,10 @@ app.register_blueprint(process_bp)
 def index():
     return render_template("index.html")
 
+# About page
+@app.route("/about")
+def about():
+    return render_template("about.html")
 
 @app.route("/upload", methods=["POST"])
 def upload():
