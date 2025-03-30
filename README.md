@@ -27,5 +27,7 @@ A web app that converts lecture videos, PDFs, PowerPoints, or audio files into o
 
 ---
 
-## 🗂 Project Structure
+## How to run
+- create a virtual environment in python
+- type in python(3) backend/app.py
 
