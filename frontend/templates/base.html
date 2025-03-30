@@ -44,8 +44,15 @@
       </div>
 
       <div class="navbar-end is-flex is-flex-direction-row is-align-items-center">
-        <a href="/signup" class="navbar-item button is-primary is-rounded has-text-white mr-2">Sign Up</a>
-        <a href="/login" class="navbar-item button is-primary has-text-white mr-2 is-rounded">Log In</a>
+        {% if session.get("user") %}
+          <div class="navbar-item">
+            👋 Hello, {{ session['user']['name'].split(' ')[0] }}!
+          </div>
+          <a href="/logout" class="navbar-item button is-light is-rounded mr-2">Logout</a>
+        {% else %}
+          <a href="/login?screen_hint=signup" class="navbar-item button is-light is-rounded mr-2">Sign Up</a>
+          <a href="/login" class="navbar-item button is-primary has-text-white mr-2 is-rounded">Log In</a>
+        {% endif %}
       </div>
     </div>
   </nav>
