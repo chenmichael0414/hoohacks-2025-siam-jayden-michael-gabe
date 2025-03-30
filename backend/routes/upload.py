@@ -26,6 +26,7 @@ def upload():
     filename = secure_filename(file.filename)
     session["filename"] = filename
     session["file_type"] = filename.rsplit(".", 1)[1].lower()
+    session["file_path"] = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
     upload_folder = current_app.config["UPLOAD_FOLDER"]
     os.makedirs(upload_folder, exist_ok=True)
     save_path = os.path.join(upload_folder, filename)
