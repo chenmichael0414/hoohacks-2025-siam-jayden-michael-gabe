@@ -42,6 +42,26 @@
         <a href="/" class="navbar-item">Home</a>
         <a href="/about" class="navbar-item">About</a>
         <a href="/classrooms" class="navbar-item">Classrooms</a>
+        <a class="navbar-item">
+          <button id="theme-toggler" class="button is-light is-rounded">Dark Mode</button>
+        </a>
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            const themeToggler = document.getElementById('theme-toggler');
+            const currentTheme = localStorage.getItem('theme') || 'light';
+
+            // Apply the saved theme on page load
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            themeToggler.textContent = currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+
+            themeToggler.addEventListener('click', () => {
+              const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+              document.documentElement.setAttribute('data-theme', newTheme);
+              localStorage.setItem('theme', newTheme);
+              themeToggler.textContent = newTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+            });
+          });
+        </script>
       </div>
 
       <div class="navbar-end is-flex is-flex-direction-row is-align-items-center">

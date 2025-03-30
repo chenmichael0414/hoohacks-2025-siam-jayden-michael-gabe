@@ -1,6 +1,6 @@
 import os
 import ffmpeg
-from flask import session, Blueprint, render_template, current_app, jsonify
+from flask import session, Blueprint, render_template, current_app, jsonify, redirect, url_for
 import threading
 from services import transcription, slides, powerpoint, video
 
@@ -14,6 +14,7 @@ def processing_page():
         return "No file found in session", 400
 
     return render_template("processing.html", filename=filename)
+
 
 
 
@@ -81,8 +82,11 @@ def process_file(filename, file_type, input_file_path, upload_folder):
         # You may want to instead save results to a file or database
 
         print("✅ Processing complete.")
+        session["processing_status"] = "complete"
+        
 
     except ffmpeg.Error as e:
         print("❌ FFmpeg failed!")
         print("stdout:", e.stdout.decode("utf8"))
         print("stderr:", e.stderr.decode("utf8"))
+        session["processing_status"] = "failed"
