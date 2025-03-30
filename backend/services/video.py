@@ -6,7 +6,7 @@ from fpdf import FPDF, HTMLMixin
 from markdown2 import markdown
 from google import genai 
 from dotenv import load_dotenv
-from .transcription import transcribe_audio
+from .transcription import transcribe_audio_no_pdf
 import unicodedata
 
 # Load Gemini API key from .env
@@ -107,7 +107,7 @@ def process_video(video_path):
     extract_audio(video_path, audio_path)
 
     print("📝 Transcribing audio...")
-    transcript = transcribe_audio(audio_path)
+    transcript = transcribe_audio_no_pdf(audio_path)
 
     print("🖼️ Processing video frames and slide captions...")
     slides_info = detect_and_describe_slides(video_path)
@@ -118,5 +118,10 @@ def process_video(video_path):
 
     print("📄 Saving notes to PDF...")
     save_notes_as_pdf(notes_markdown, filename=notes_pdf)
+    if os.path.exists(audio_path):
+        os.remove(audio_path)
+        print("🗑️ MP3 file deleted successfully.")
+    else:
+        print("⚠️ File does not exist.")
 
     return notes_markdown
