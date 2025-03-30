@@ -11,13 +11,10 @@ def detect_and_write_slides_from_video(file_path):
     prompt = ("Detect slides within this video."
               "For each change in slide, mark its timestamp in MM:SS format before writing notes."
               "Generate well-formatted and clean notes with titles/headers based off of the slides you detect."
-              "If you detect no slides, do not generate any text.")
+              "If you detect no slides within the video, do not generate a response or generate an empty response.")
 
     response = client.models.generate_content(
         model='gemini-2.0-flash',
         contents=[prompt, file_path],
-        config={
-            'response_mime_type': 'application/xml',
-        }
     )
     return response.text
