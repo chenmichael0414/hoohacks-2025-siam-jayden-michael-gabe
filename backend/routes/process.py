@@ -2,6 +2,7 @@ import os
 import ffmpeg
 from flask import session, Blueprint, render_template, current_app, jsonify, redirect, url_for
 import threading
+import shutil
 from services import transcription, slides, powerpoint, video
 
 process_bp = Blueprint("process", __name__)
@@ -81,7 +82,18 @@ def process_file(filename, file_type, input_file_path, upload_folder):
         # You can't return render_template here because it's running outside the Flask request context
         # You may want to instead save results to a file or database
 
+<<<<<<< Updated upstream
         print("✅ Processing complete.")        
+=======
+        print("✅ Processing complete.")
+        uploads_path = os.path.join(os.getcwd(), "uploads")
+
+        if os.path.exists(uploads_path):
+            shutil.rmtree(uploads_path)
+            print("Uploads folder deleted.")
+        else:
+            print("Uploads folder does not exist.")
+>>>>>>> Stashed changes
 
     except ffmpeg.Error as e:
         print("❌ FFmpeg failed!")
