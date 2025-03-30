@@ -1,6 +1,7 @@
 import os
 import ffmpeg
-from flask import session, Blueprint, render_template, current_app
+import threading
+from flask import session, Blueprint, render_template, current_app, jsonify
 from services import transcription, slides
 
 process_bp = Blueprint("process", __name__)
@@ -8,6 +9,26 @@ process_bp = Blueprint("process", __name__)
 
 @process_bp.route("/processing")
 def processing_page():
+    filename = session.get('filename')
+    if not filename:
+        return "No file found in session", 400
+
+    return render_template("processing.html", filename=filename)
+
+
+
+@process_bp.route("/start_processing", methods=["POST"])
+def start_processing():
+    filename = session.get('filename')
+    if not filename:
+        return jsonify({"error": "No file found in session"}), 400
+
+    
+    thread = threading.Thread(target=process_file, args=(filename,))
+    thread.start()
+
+
+def process_file(filename):
     filename = session.get("filename")
     if not filename:
         return "No file uploaded", 400

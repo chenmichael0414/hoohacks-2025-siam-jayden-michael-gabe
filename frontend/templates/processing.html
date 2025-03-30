@@ -12,9 +12,20 @@
       <p class="subtitle has-text-centered">This may take a few minutes. Please do not refresh the page.</p>
       
       <p id="progress-message">Waiting to start...</p>
-      <progress class="progress is-info" value="0" max="100"></progress>
+      <progress class="progress is-info" max="100">30%</progress>
     </div>
   </div>
+  <script>
+        // Function to call the processing route after the page loads
+        function startProcessing() {
+            fetch('/start-processing', { method: 'POST' })
+                .then(response => response.json())
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Call the processing route as soon as the page loads
+        window.onload = startProcessing;
+    </script>
 </body>
 {% endblock %}
 
