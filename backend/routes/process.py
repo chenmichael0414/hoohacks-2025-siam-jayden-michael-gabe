@@ -5,30 +5,42 @@ from services import transcription, slides
 
 process_bp = Blueprint("process", __name__)
 
-
 @process_bp.route("/processing")
 def processing_page():
-    filename = session.get("filename")
-    if not filename:
-        return "No file uploaded", 400
-    file_type = session.get("file_type")
     input_file_path = session.get("file_path")
-    print(input_file_path)
+    file_type = session.get("file_type")
     output_file_path = os.path.join(current_app.config["UPLOAD_FOLDER"], "lecture_to_audio.mp3")
 
-    if os.path.exists(output_file_path):
-        match file_type:
-            case "mp4" | "mov":
-                ffmpeg.input(filename).output(input_file_path, format="mp3", audio_bitrate="128k").run()
-            case "mp3":
-                print(output_file_path)
-                os.replace(input_file_path, output_file_path)
-    else:
-        match file_type:
-            case "mp4" | "mov":
-                ffmpeg.input(filename).output(output_file_path, format="mp3", audio_bitrate="128k").run()
-            case "mp3":
-                os.rename(input_file_path, output_file_path)
-    print(transcription.transcribe_audio(output_file_path))
+    if not input_file_path or not os.path.exists(input_file_path):
+        return "No file uploaded or file path is invalid", 400
+
+    try:
+        if os.path.exists(output_file_path):
+            os.remove(output_file_path)
+
+        if file_type in ["mp4", "mov"]:
+            print("🎥 Extracting audio using ffmpeg from:", input_file_path)
+            (
+                ffmpeg
+                .input(input_file_path)
+                .output(output_file_path, format="mp3", audio_bitrate="128k")
+                .run(capture_stdout=True, capture_stderr=True)
+            )
+        elif file_type == "mp3":
+            print("🎧 Input is already mp3, moving to output path")
+            os.rename(input_file_path, output_file_path)
+        else:
+            return "Unsupported file type", 400
+
+        print("✅ Audio ready at:", output_file_path)
+        print("📢 Transcribing...")
+        transcript = transcription.transcribe_audio(output_file_path)
+        print("📝 Transcript:\n", transcript)
+
+    except ffmpeg.Error as e:
+        print("❌ ffmpeg failed!")
+        print("stdout:", e.stdout.decode("utf8"))
+        print("stderr:", e.stderr.decode("utf8"))
+        return "ffmpeg error occurred. See logs.", 500
 
     return render_template("processing.html")
