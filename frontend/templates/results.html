@@ -3,16 +3,11 @@
 {% block title %}Results{% endblock %}
 
 {% block content %}
-{% extends "base.html" %}
-
-{% block title %}Results{% endblock %}
-
-{% block content %}
-<body class="results-body">
+<body class="results-body centered_body">
   <div class="results-container">
     
-    <!-- Left Section: Title, Subtitle, Download Button -->
-    <div class="left-panel">
+    <!-- Left Panel: Title, Subtitle, Download Button (Now in a container) -->
+    <div class="left-container">
       <h1 class="title">Processing Complete</h1>
       <p class="subtitle">View your notes here →</p>
       
@@ -20,14 +15,11 @@
       <a href="/download" class="button is-primary is-rounded">Download Notes</a>
     </div>
 
-    <!-- Right Section: Scrollable iFrame for Notes -->
+    <!-- Right Panel: Scrollable iFrame for Notes -->
     <div class="right-panel">
-      <iframe src="{{ url_for('static', filename='path_to_your_rtf_file.rtf') }}" class="notes-viewer"></iframe>
+      <iframe src="{{ url_for('static', filename='dictionary.pdf') }}" class="notes-viewer"></iframe>
     </div>
 
   </div>
-  
-  <!-- Bulma JS (for any interactive features) -->
-  <script src="https://cdn.jsdelivr.net/npm/bulma@0.9.3/js/bulma.min.js"></script>
 </body>
-{% endblock %
+{% endblock %}
