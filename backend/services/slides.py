@@ -1,8 +1,7 @@
 import os
 from google import genai
 from dotenv import load_dotenv
-import pytesseract
-from pdf2image import convert_from_path
+import fitz
 
 load_dotenv()
 api_key = os.getenv('google_API_key')
@@ -14,13 +13,13 @@ prompt = ("Generate well-formatted and clean notes with titles and headers from 
 
 
 def parse_generate_pdf(pdf_path):
-    my_file = client.files.upload(file=pdf_path)
-    images = convert_from_path(pdf_path)
+    doc = fitz.open(pdf_path)
     text = ""
-    for image in images:
-        text += pytesseract.image_to_string(image)
+    for page_number in range(len(doc)):
+        page = doc.load_page(page_number)  # Load a page
+        text += page.get_text() + "\n"  # Extract text from the page
     generated_notes = client.models.generate_content(
         model='gemini-2.0-flash',
         contents=[prompt, text],
     )
-    return generated_notes
+    return generated_notes.text

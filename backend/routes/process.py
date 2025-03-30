@@ -5,11 +5,17 @@ from services import transcription, slides
 
 process_bp = Blueprint("process", __name__)
 
+
 @process_bp.route("/processing")
 def processing_page():
-    input_file_path = session.get("file_path")
+    filename = session.get("filename")
+    if not filename:
+        return "No file uploaded", 400
     file_type = session.get("file_type")
+    input_file_path = session.get("file_path")
+    print(input_file_path)
     output_file_path = os.path.join(current_app.config["UPLOAD_FOLDER"], "lecture_to_audio.mp3")
+    output_video_path = os.path.join(current_app.config["UPLOAD_FOLDER"], "lecture_video.mp4")
 
     if not input_file_path or not os.path.exists(input_file_path):
         return "No file uploaded or file path is invalid", 400
@@ -29,13 +35,17 @@ def processing_page():
         elif file_type == "mp3":
             print("🎧 Input is already mp3, moving to output path")
             os.rename(input_file_path, output_file_path)
+        elif file_type == "pdf":
+            print("📄 Converting PDF to text using OCR...")
+            notes = slides.parse_generate_pdf(input_file_path)
+            print("📝 Notes:\n", notes)
         else:
             return "Unsupported file type", 400
-
-        print("✅ Audio ready at:", output_file_path)
-        print("📢 Transcribing...")
-        transcript = transcription.transcribe_audio(output_file_path)
-        print("📝 Transcript:\n", transcript)
+        if file_type == "mp4" or file_type == "mov" or file_type == "mp3":
+            print("✅ Audio ready at:", output_file_path)
+            print("📢 Transcribing...")
+            transcript = transcription.transcribe_audio(output_file_path)
+            print("📝 Transcript:\n", transcript)
 
     except ffmpeg.Error as e:
         print("❌ ffmpeg failed!")
