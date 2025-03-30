@@ -81,12 +81,9 @@ def process_file(filename, file_type, input_file_path, upload_folder):
         # You can't return render_template here because it's running outside the Flask request context
         # You may want to instead save results to a file or database
 
-        print("✅ Processing complete.")
-        session["processing_status"] = "complete"
-        
+        print("✅ Processing complete.")        
 
     except ffmpeg.Error as e:
         print("❌ FFmpeg failed!")
         print("stdout:", e.stdout.decode("utf8"))
         print("stderr:", e.stderr.decode("utf8"))
-        session["processing_status"] = "failed"
