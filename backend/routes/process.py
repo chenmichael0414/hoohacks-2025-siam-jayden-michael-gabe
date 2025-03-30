@@ -32,5 +32,3 @@ def processing_page():
     print(transcription.transcribe_audio(output_file_path))
 
     return render_template("processing.html")
-
-    # case "pdf":
