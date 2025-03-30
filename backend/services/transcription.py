@@ -127,3 +127,16 @@ def transcribe_audio(file_path):
 
 
     return full_transcript
+
+def transcribe_audio_no_pdf(file_path):
+    print("🔪 Splitting audio into 25-minute chunks...")
+    chunks = split_audio(file_path)
+    full_transcript = ""
+
+    for i, chunk in enumerate(chunks):
+        print(f"🧠 Transcribing chunk {i + 1}/{len(chunks)}...")
+        full_transcript += transcribe_chunk(chunk, i)
+    prompt = build_notes_prompt(full_transcript, [])
+
+
+    return full_transcript
