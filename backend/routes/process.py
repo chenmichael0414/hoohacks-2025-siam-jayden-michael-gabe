@@ -63,7 +63,7 @@ def process_file(filename, file_type, input_file_path, upload_folder):
             slides_text = powerpoint.detect_and_write_slides_from_pptx(input_file_path)
             print("📝 Slides:\n", slides_text)
 
-        if file_type in ["mp3"]:
+        elif file_type in ["mp3"]:
             print("✅ Audio ready at:", output_file_path)
             print("📢 Transcribing...")
             transcript = transcription.transcribe_audio(output_file_path)
@@ -87,3 +87,26 @@ def process_file(filename, file_type, input_file_path, upload_folder):
         print("❌ FFmpeg failed!")
         print("stdout:", e.stdout.decode("utf8"))
         print("stderr:", e.stderr.decode("utf8"))
+
+    
+      # ✅ At the end of process_file
+        from models import db, LectureNote, User
+        from flask_login import current_user
+
+        pdf_path = os.path.join(upload_folder, "lecture_notes.pdf")
+        
+        if os.path.exists(pdf_path):
+            print(f"📦 Saving {pdf_path} to DB...")
+
+            note = LectureNote(
+                filename="lecture_notes.pdf",
+                file_path=pdf_path,
+                user_id=current_user.id if hasattr(current_user, "id") else None
+            )
+
+            db.session.add(note)
+            db.session.commit()
+            print("✅ PDF saved to database.")
+
+    except Exception as e:
+        print("❌ Exception during processing:", str(e))

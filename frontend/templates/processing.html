@@ -1,31 +1,62 @@
 {% extends "base.html" %}
 
-
-
 {% block title %}Processing{% endblock %}
 
 {% block content %}
-<body class = "centered_body">
+<body class="centered_body">
   <div class="container">
     <div class="box">
       <h2 class="title is-4 has-text-centered">🔄 Processing your lecture...</h2>
       <p class="subtitle has-text-centered">This may take a few minutes. Please do not refresh the page.</p>
       
       <p id="progress-message">Waiting to start...</p>
-      <progress class="progress is-info" max="100">30%</progress>
+      <progress id="progress-bar" class="progress is-info" max="100">30%</progress>
     </div>
   </div>
-  <script>
-        // Function to call the processing route after the page loads
-        function startProcessing() {
-            fetch('/start_processing', { method: 'POST' })
-                .then(response => response.json())
-                .catch(error => console.error('Error:', error));
-        }
 
-        // Call the processing route as soon as the page loads
-        window.onload = startProcessing;
-    </script>
+  <script>
+    const pdfFilename = "lecture_notes.pdf";
+    const maxAttempts = 60; // 5 minutes
+    let attempts = 0;
+    let pdfCheckInterval = null;
+
+    function startProcessing() {
+      fetch('/start_processing', { method: 'POST' })
+        .then(() => {
+          document.getElementById("progress-message").innerText = "Processing started...";
+        })
+        .catch(error => {
+          console.error('Error starting processing:', error);
+          document.getElementById("progress-message").innerText = "Failed to start processing.";
+        });
+    }
+
+    function checkForPDF() {
+      attempts++;
+      fetch(`/${pdfFilename}`, { method: 'HEAD' })
+        .then(response => {
+          if (response.status === 200) {
+            clearInterval(pdfCheckInterval);
+            document.getElementById("progress-message").innerText = "✅ Processing complete. Redirecting...";
+            setTimeout(() => {
+              window.location.href = "/results";
+            }, 1000);
+          } else if (attempts >= maxAttempts) {
+            clearInterval(pdfCheckInterval);
+            document.getElementById("progress-message").innerText = "⚠️ Processing timeout. Please try again.";
+          } else {
+            document.getElementById("progress-message").innerText = `Processing... (${attempts * 5}s elapsed)`;
+          }
+        })
+        .catch(error => {
+          console.error("Error checking for PDF:", error);
+        });
+    }
+
+    window.onload = () => {
+      startProcessing();
+      pdfCheckInterval = setInterval(checkForPDF, 5000);
+    };
+  </script>
 </body>
 {% endblock %}
-

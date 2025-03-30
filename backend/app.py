@@ -4,6 +4,8 @@ from routes.upload import upload_bp
 from routes.notes import notes_bp
 from routes.auth import auth_bp
 from routes.process import process_bp
+from routes.check_pdf import check_pdf_bp
+from flask import send_file
 from services.auth_config import oauth  # Auth0 setup is imported from here
 import os
 
@@ -28,12 +30,25 @@ app.register_blueprint(upload_bp)
 app.register_blueprint(notes_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(process_bp)
+app.register_blueprint(check_pdf_bp)
 
 
 # Main routes
 @app.route("/")
 def index():
     return render_template("index.html")
+
+@app.route("/lecture_notes.pdf")
+def serve_lecture_notes():
+    # Get absolute path to lecture_notes.pdf in the base repo
+    base_dir = os.path.abspath(os.path.dirname(__file__))  # This is /backend
+    pdf_path = os.path.join(base_dir, "..", "lecture_notes.pdf")  # Go up one level
+    pdf_path = os.path.abspath(pdf_path)  # Clean it up
+
+    if not os.path.exists(pdf_path):
+        return "PDF not found", 404
+
+    return send_file(pdf_path, mimetype='application/pdf')
 
 
 @app.route("/upload", methods=["POST"])
