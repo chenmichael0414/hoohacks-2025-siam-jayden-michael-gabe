@@ -8,7 +8,8 @@ client = genai.Client(api_key=api_key)
 
 
 def transcribe_audio(file_path):
-    prompt = "Generate a transcript of only the speech in the video. Format it well using clean verbatim."
+    prompt = ("Generate a transcript of only the speech in the video. Format it well using clean verbatim."
+              "Provide extensive timestamps in MM:SS format for each line of speech that you transcribe.")
     response = client.models.generate_content(
         model='gemini-2.0-flash',
         contents=[prompt, file_path],

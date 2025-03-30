@@ -9,7 +9,8 @@ api_key = os.getenv('google_API_key')
 client = genai.Client(api_key=api_key)
 
 prompt = ("Generate well-formatted and clean notes with titles and headers from the text that you are supplied with."
-          "There may be mistakes in formatting and spelling as of right. Please correct them, if necessary.")
+          "There may be mistakes in formatting and spelling as of right. Please correct them, if necessary."
+          "Provide extensive timestamps in MM:SS format for each section of notes that you generate.")
 
 
 def parse_generate_pdf(pdf_path):
