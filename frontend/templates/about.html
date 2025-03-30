@@ -4,62 +4,7 @@
 
 {% block title %}About Us{% endblock %}
 
+
 {% block content %}
-<body class="about-body">
-  <div class="about-container">
-    
-    <h1 class="title has-text-centered">Meet the Developers</h1>
 
-    <!-- Card Slider Container -->
-    <div class="card-slider">
-      <button class="slider-btn left" onclick="prevCard()">&#9665;</button>
-      
-      <!-- Developer Cards -->
-      <div class="cards-wrapper">
-        <div class="card developer-card active">
-          <div class="card-image">
-            <figure class="image is-128x128">
-              <img src="{{ url_for('static', filename='images/dev1.jpg') }}" alt="Developer 1">
-            </figure>
-          </div>
-          <div class="card-content">
-            <p class="title is-4">John Doe</p>
-            <p class="subtitle is-6">Backend Developer</p>
-            <p>Expert in Flask and database management.</p>
-          </div>
-        </div>
-
-        <div class="card developer-card">
-          <div class="card-image">
-            <figure class="image is-128x128">
-              <img src="{{ url_for('static', filename='images/dev2.jpg') }}" alt="Developer 2">
-            </figure>
-          </div>
-          <div class="card-content">
-            <p class="title is-4">Jane Smith</p>
-            <p class="subtitle is-6">Frontend Developer</p>
-            <p>Specializes in Bulma, JavaScript, and UI/UX.</p>
-          </div>
-        </div>
-
-        <div class="card developer-card">
-          <div class="card-image">
-            <figure class="image is-128x128">
-              <img src="{{ url_for('static', filename='images/dev3.jpg') }}" alt="Developer 3">
-            </figure>
-          </div>
-          <div class="card-content">
-            <p class="title is-4">Alice Johnson</p>
-            <p class="subtitle is-6">AI Integration</p>
-            <p>Focuses on AI-powered features & automation.</p>
-          </div>
-        </div>
-      </div>
-
-      <button class="slider-btn right" onclick="nextCard()">&#9655;</button>
-    </div>
-  </div>
-
-  <script src="{{ url_for('static', filename='about.js') }}"></script>
-</body>
 {% endblock %}
