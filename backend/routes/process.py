@@ -62,7 +62,7 @@ def process_file(filename, file_type, input_file_path, upload_folder):
             slides_text = powerpoint.detect_and_write_slides_from_pptx(input_file_path)
             print("📝 Slides:\n", slides_text)
 
-        if file_type in ["mp3"]:
+        elif file_type in ["mp3"]:
             print("✅ Audio ready at:", output_file_path)
             print("📢 Transcribing...")
             transcript = transcription.transcribe_audio(output_file_path)
