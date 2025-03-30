@@ -13,9 +13,11 @@ load_dotenv()
 api_key = os.getenv('google_API_key')
 client = genai.Client(api_key=api_key)
 
+
 # 🔊 Extract MP3 audio from video file
 def extract_audio(video_path, audio_path):
     ffmpeg.input(video_path).output(audio_path, format="mp3", acodec="libmp3lame").run(quiet=True)
+
 
 # 🎞️ Extract frames from video every N seconds
 def extract_frames(video_path, every_n_seconds=15, output_folder="frames"):
@@ -38,10 +40,12 @@ def extract_frames(video_path, every_n_seconds=15, output_folder="frames"):
         count += 1
     return frame_data
 
+
 # 🔍 Perform OCR and image captioning on frame
 def analyze_frame(img_path):
     ocr_text = pytesseract.image_to_string(img_path)
     return ocr_text.strip()
+
 
 # 🧾 Build slide content info from video
 def detect_and_describe_slides(video_path):
@@ -51,6 +55,7 @@ def detect_and_describe_slides(video_path):
         slides_info.append((timestamp, ocr_text))
     return slides_info
 
+
 # 🧠 Construct prompt from transcript and slide data
 def build_notes_prompt(transcript, slides_info):
     slide_block = "\n".join(
@@ -58,11 +63,12 @@ def build_notes_prompt(transcript, slides_info):
         for time, ocr in slides_info
     )
     prompt = (
-        "Using the transcript and the visual content from the lecture slides below, "
-        "generate clean, well-structured notes with section headers, bullet points, and clear explanations.\n\n"
-        "Transcript:\n" + transcript + "\n\nSlides:\n" + slide_block
+            "Using the transcript and the visual content from the lecture slides below, "
+            "generate clean, well-structured notes with section headers, bullet points, and clear explanations.\n\n"
+            "Transcript:\n" + transcript + "\n\nSlides:\n" + slide_block
     )
     return prompt
+
 
 # ✍️ Generate notes using Gemini
 def generate_notes_from_prompt(prompt):
@@ -72,10 +78,10 @@ def generate_notes_from_prompt(prompt):
     )
     return response.text
 
+
 def clean_text(text):
     # Strip unsupported characters (like curly quotes, emojis, etc.)
     return unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
-
 
 
 def save_notes_as_pdf(notes_text, filename="lecture_notes.pdf"):
@@ -128,6 +134,8 @@ def save_notes_as_pdf(notes_text, filename="lecture_notes.pdf"):
             pdf.paragraph(block)
 
     pdf.output(filename)
+
+
 # 🔄 Master pipeline to process a video into notes
 def process_video(video_path):
     base_name = os.path.splitext(os.path.basename(video_path))[0]
