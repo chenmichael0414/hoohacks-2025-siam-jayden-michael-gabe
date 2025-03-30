@@ -8,6 +8,7 @@ client = genai.Client(api_key=api_key)
 
 
 def detect_and_write_slides_from_video(file_path):
+    my_file = client.files.upload(file=file_path)
     prompt = ("Detect slides within this video."
               "For each change in slide, mark its timestamp in MM:SS format before writing notes."
               "Generate well-formatted and clean notes with titles/headers based off of the slides you detect."
@@ -15,6 +16,6 @@ def detect_and_write_slides_from_video(file_path):
 
     response = client.models.generate_content(
         model='gemini-2.0-flash',
-        contents=[prompt, file_path],
+        contents=[prompt, my_file]
     )
     return response.text

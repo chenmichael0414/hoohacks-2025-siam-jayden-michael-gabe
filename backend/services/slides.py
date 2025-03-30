@@ -24,5 +24,3 @@ def parse_generate_pdf(pdf_path):
         contents=[prompt, text],
     )
     return generated_notes
-# make sure this returns formatted text, be it JSON or other format NOT a string,
-# unless there are no other options, or it actually formats it well
