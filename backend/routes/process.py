@@ -1,13 +1,33 @@
 import os
 import ffmpeg
 from flask import session, Blueprint, render_template, current_app
-from services import transcription, slides
+from services import transcription, slides, powerpoint
 
 process_bp = Blueprint("process", __name__)
 
 
 @process_bp.route("/processing")
 def processing_page():
+    filename = session.get('filename')
+    if not filename:
+        return "No file found in session", 400
+
+    return render_template("processing.html", filename=filename)
+
+
+
+@process_bp.route("/start_processing", methods=["POST"])
+def start_processing():
+    filename = session.get('filename')
+    if not filename:
+        return jsonify({"error": "No file found in session"}), 400
+
+    
+    thread = threading.Thread(target=process_file, args=(filename,))
+    thread.start()
+
+
+def process_file(filename):
     filename = session.get("filename")
     if not filename:
         return "No file uploaded", 400
@@ -39,6 +59,10 @@ def processing_page():
             print("📄 Converting PDF to text using OCR...")
             notes = slides.parse_generate_pdf(input_file_path)
             print("📝 Notes:\n", notes)
+        elif file_type == "pptx":
+            print("🎨 Detecting slides from PowerPoint...")
+            slides_text = powerpoint.detect_and_write_slides_from_pptx(input_file_path)
+            print("📝 Slides:\n", slides_text)
         else:
             return "Unsupported file type", 400
         if file_type == "mp4" or file_type == "mov" or file_type == "mp3":
