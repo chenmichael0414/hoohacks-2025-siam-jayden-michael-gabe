@@ -82,9 +82,7 @@ def process_file(filename, file_type, input_file_path, upload_folder):
         # You can't return render_template here because it's running outside the Flask request context
         # You may want to instead save results to a file or database
 
-<<<<<<< Updated upstream
-        print("✅ Processing complete.")        
-=======
+
         print("✅ Processing complete.")
         uploads_path = os.path.join(os.getcwd(), "uploads")
 
@@ -93,8 +91,6 @@ def process_file(filename, file_type, input_file_path, upload_folder):
             print("Uploads folder deleted.")
         else:
             print("Uploads folder does not exist.")
->>>>>>> Stashed changes
-
     except ffmpeg.Error as e:
         print("❌ FFmpeg failed!")
         print("stdout:", e.stdout.decode("utf8"))
