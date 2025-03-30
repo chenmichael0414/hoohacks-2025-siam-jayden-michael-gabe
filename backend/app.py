@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from routes.upload import upload_bp
 from routes.notes import notes_bp
 from routes.auth import auth_bp
+from routes.process import process_bp
 from services.auth_config import oauth  # Auth0 setup is imported from here
 import os
 
@@ -26,6 +27,7 @@ oauth.init_app(app)
 app.register_blueprint(upload_bp)
 app.register_blueprint(notes_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(process_bp)
 
 # Main routes
 @app.route("/")

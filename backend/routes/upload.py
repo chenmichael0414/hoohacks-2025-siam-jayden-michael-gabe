@@ -1,6 +1,7 @@
-from flask import Blueprint, request, redirect, url_for, current_app, session
+from flask import Blueprint, request, redirect, url_for, current_app, session, render_template
 import os
 from werkzeug.utils import secure_filename
+from routes.process import processing_page
 
 ALLOWED_EXTENSIONS = {"mp4", "mov", "mp3", "pptx", "pdf"}
 
@@ -30,7 +31,6 @@ def upload():
     save_path = os.path.join(upload_folder, filename)
     print(session.get("filename"))
     file.save(save_path)
-    print(session.get("filename"))
-
+    print("got here")
     # Optional: store file type or extension if you want to branch processing logic later
-    return redirect(url_for("processing"))
+    return redirect(url_for("process.processing_page"))  # Redirect to processing page

@@ -10,7 +10,9 @@
     <div class="box">
       <h2 class="title is-4 has-text-centered">🔄 Processing your lecture...</h2>
       <p class="subtitle has-text-centered">This may take a few minutes. Please do not refresh the page.</p>
-      <progress class="progress is-info" max="100">30%</progress>
+      
+      <p id="progress-message">Waiting to start...</p>
+      <progress class="progress is-info" value="0" max="100"></progress>
     </div>
   </div>
 </body>
