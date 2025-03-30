@@ -101,7 +101,7 @@ def save_notes_as_pdf(notes_markdown, filename="lecture_notes.pdf"):
 def process_video(video_path):
     base_name = os.path.splitext(os.path.basename(video_path))[0]
     audio_path = f"{base_name}_audio.mp3"
-    notes_pdf = f"{base_name}_notes.pdf"
+    notes_pdf = "lecture_notes.pdf"
 
     print("🎥 Extracting audio...")
     extract_audio(video_path, audio_path)

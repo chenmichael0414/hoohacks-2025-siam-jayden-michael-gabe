@@ -91,6 +91,14 @@ def process_file(filename, file_type, input_file_path, upload_folder):
             print("Uploads folder deleted.")
         else:
             print("Uploads folder does not exist.")
+
+        frames_path = os.path.join(os.getcwd(), "frames")
+
+        if os.path.exists(frames_path):
+            shutil.rmtree(frames_path)
+            print("frames folder deleted.")
+        else:
+            print("frames folder does not exist.")
     except ffmpeg.Error as e:
         print("❌ FFmpeg failed!")
         print("stdout:", e.stdout.decode("utf8"))

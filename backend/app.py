@@ -6,6 +6,7 @@ from routes.auth import auth_bp
 from routes.process import process_bp
 from routes.check_pdf import check_pdf_bp
 from flask import send_file
+from datetime import datetime
 from services.auth_config import oauth  # Auth0 setup is imported from here
 import os
 
@@ -67,7 +68,7 @@ def processing():
 
 @app.route("/results")
 def results():
-    return render_template("results.html")
+    return render_template("results.html", timestamp=datetime.utcnow().timestamp())
 
 
 
