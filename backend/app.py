@@ -29,22 +29,27 @@ app.register_blueprint(notes_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(process_bp)
 
+
 # Main routes
 @app.route("/")
 def index():
     return render_template("index.html")
 
+
 @app.route("/upload", methods=["POST"])
 def upload():
     return redirect(url_for("processing"))
+
 
 @app.route("/processing")
 def processing():
     return render_template("processing.html")
 
+
 @app.route("/results")
 def results():
     return render_template("results.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
