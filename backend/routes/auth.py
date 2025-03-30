@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, session, url_for, request
-from services.auth_config import auth0
+from ..services.auth_config import auth0
 import os
 
 auth_bp = Blueprint("auth", __name__)
