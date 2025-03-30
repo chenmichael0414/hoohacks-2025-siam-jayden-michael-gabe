@@ -39,6 +39,12 @@ def start_processing():
 
 
 def process_file(filename, file_type, input_file_path, upload_folder):
+    if os.path.exists("lecture_notes.pdf"):
+        os.remove("lecture_notes.pdf")
+        print("🗑️ MP3 file deleted successfully.")
+    else:
+        print("⚠️ File does not exist.")
+    
     output_file_path = os.path.join(upload_folder, filename)
 
     if not input_file_path or not os.path.exists(input_file_path):
