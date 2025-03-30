@@ -32,6 +32,5 @@ def upload():
     save_path = os.path.join(upload_folder, filename)
     print(session.get("filename"))
     file.save(save_path)
-    print("got here")
     # Optional: store file type or extension if you want to branch processing logic later
     return redirect(url_for("process.processing_page"))  # Redirect to processing page

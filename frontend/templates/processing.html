@@ -18,7 +18,7 @@
   <script>
         // Function to call the processing route after the page loads
         function startProcessing() {
-            fetch('/start-processing', { method: 'POST' })
+            fetch('/start_processing', { method: 'POST' })
                 .then(response => response.json())
                 .catch(error => console.error('Error:', error));
         }
