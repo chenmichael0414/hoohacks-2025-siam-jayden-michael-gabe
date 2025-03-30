@@ -37,7 +37,7 @@ def start_processing():
 
 
 def process_file(filename, file_type, input_file_path, upload_folder):
-    output_file_path = os.path.join(upload_folder, "lecture_to_audio.mp3")
+    output_file_path = os.path.join(upload_folder, filename)
 
     if not input_file_path or not os.path.exists(input_file_path):
         print("🚫 Invalid input file path")
@@ -46,9 +46,6 @@ def process_file(filename, file_type, input_file_path, upload_folder):
     try:
         transcript = ""
         slide_notes = ""
-
-        if os.path.exists(output_file_path):
-            os.remove(output_file_path)
 
         if file_type in ["mp4", "mov"]:
             print("🖼️ Detecting slide notes...")
@@ -65,10 +62,6 @@ def process_file(filename, file_type, input_file_path, upload_folder):
             slides_text = powerpoint.detect_and_write_slides_from_pptx(input_file_path)
             print("📝 Slides:\n", slides_text)
 
-        else:
-            print("❌ Unsupported file type")
-            return
-
         if file_type in ["mp3"]:
             print("✅ Audio ready at:", output_file_path)
             print("📢 Transcribing...")
@@ -79,6 +72,10 @@ def process_file(filename, file_type, input_file_path, upload_folder):
             print("📄 Converting PDF to notes...")
             slide_notes = slides.parse_generate_pdf(input_file_path)
             print("📑 Slide Notes:\n", slide_notes)
+    
+        else:
+            print("❌ Unsupported file type")
+            return
 
         # You can't return render_template here because it's running outside the Flask request context
         # You may want to instead save results to a file or database
