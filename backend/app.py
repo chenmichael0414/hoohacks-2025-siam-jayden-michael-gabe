@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, send_file
 from dotenv import load_dotenv
 from routes.upload import upload_bp
 from routes.notes import notes_bp
@@ -69,9 +69,17 @@ def processing():
 def results():
     return render_template("results.html")
 
-@app.route("/about")
-def about():
-    return render_template("about.html")
+
+@app.route("/download")
+def download():
+    root_path = os.getcwd()
+    file_path = os.path.join(root_path, 'lecture_notes.pdf')  # Build the path to the file
+
+    if os.path.exists(file_path):  # Check if the file exists
+        return send_file(file_path, as_attachment=True)  # Send the file as an attachment
+    else:
+        return "File not found", 404  # Return a 404 error if the file is not found
+
 
 
 if __name__ == "__main__":
