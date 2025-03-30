@@ -41,7 +41,7 @@ def processing_page():
             print("📝 Notes:\n", notes)
         else:
             return "Unsupported file type", 400
-        if(file_type == "mp4" or file_type == "mov" or file_type == "mp3"):
+        if file_type == "mp4" or file_type == "mov" or file_type == "mp3":
             print("✅ Audio ready at:", output_file_path)
             print("📢 Transcribing...")
             transcript = transcription.transcribe_audio(output_file_path)
