@@ -1,7 +1,7 @@
 import os
 from google import genai
 from dotenv import load_dotenv
-import fitz
+import pymupdf as fitz
 
 load_dotenv()
 api_key = os.getenv('google_API_key')

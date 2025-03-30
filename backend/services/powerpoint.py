@@ -15,11 +15,12 @@ def detect_and_write_slides_from_pptx(file_path):
     text = ""
     prs = Presentation(file_path)
     for slide in prs.slides:
-        for i, shape in slide.shapes:
-            if hasattr(shape, "image"):
-                img_data = slide.shapes[0].image.blob
-                img = Image.open(io.BytesIO(img_data))
-                text += pytesseract.image_to_string(img) + "\n"
+        for i, shape in enumerate(slide.shapes):
+            if hasattr(shape, "text_frame") and shape.text_frame is not None:
+                for paragraph in shape.text_frame.paragraphs:
+                    for run in paragraph.runs:
+                        text += run.text + " "  # Collect text
+        text += "\n\n"  # Separate slides with a newline
     prompt = (
         "Generate well-formatted and clean notes with titles and headers from the text that you are supplied with."
         "There may be mistakes in formatting and spelling as of right. Please correct them, if necessary."

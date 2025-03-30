@@ -1,7 +1,7 @@
 import os
 import ffmpeg
 from flask import session, Blueprint, render_template, current_app
-from services import transcription, slides
+from services import transcription, slides, powerpoint
 
 process_bp = Blueprint("process", __name__)
 
@@ -39,6 +39,10 @@ def processing_page():
             print("📄 Converting PDF to text using OCR...")
             notes = slides.parse_generate_pdf(input_file_path)
             print("📝 Notes:\n", notes)
+        elif file_type == "pptx":
+            print("🎨 Detecting slides from PowerPoint...")
+            slides_text = powerpoint.detect_and_write_slides_from_pptx(input_file_path)
+            print("📝 Slides:\n", slides_text)
         else:
             return "Unsupported file type", 400
         if file_type == "mp4" or file_type == "mov" or file_type == "mp3":
